@@ -3,9 +3,13 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.Timer;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -16,6 +20,10 @@ public class Board extends JPanel implements ActionListener {
 	
 	private final int B_WIDTH = 500;
     private final int B_HEIGHT = 500;
+
+    private Quad quad = new Quad(1,1,B_WIDTH-3, B_HEIGHT-3);
+    private QuadTree quadTree = new QuadTree(quad,4);
+    static List<QuadTree> tree = new ArrayList();
     
     private final int DOT_SIZE = 10; 
     private final int RAND_POS = 49;
@@ -30,7 +38,8 @@ public class Board extends JPanel implements ActionListener {
     private Dot[] particulas;
     
     private boolean inGame = false;
-
+    private boolean inquadTree, inbrutalForce;
+    
     private Timer timer;
     
     public Board() 
@@ -51,6 +60,8 @@ public class Board extends JPanel implements ActionListener {
         setFocusable(true);
 
         setPreferredSize(new Dimension(B_WIDTH, B_HEIGHT));
+        
+        
         
         initGame();
     }
@@ -80,7 +91,7 @@ public class Board extends JPanel implements ActionListener {
     }
     
     private void initGame() 
-    {
+    {	
         timer = new Timer(DELAY, this);
         timer.start();    
      }
@@ -97,9 +108,28 @@ public class Board extends JPanel implements ActionListener {
         {
         	if(particulas != null) 
         	{
+        		if(inquadTree) 
+        		{
+        		g.drawRect(1,1,B_WIDTH-3, B_HEIGHT-3);
+            	g.setColor(Color.black);
+            	    	
+            	for (int i = 0; i < tree.size(); i++) 
+            	{
+            		g.drawRect(tree.get(i).quadra.x, tree.get(i).quadra.y, tree.get(i).quadra.w, tree.get(i).quadra.h);
+            	}
+        		}
+        		
         		for(int i = 0; i < particulas.length; i++) 
         		{
-        			g.setColor(Color.yellow);
+        			if(particulas[i].impact) 
+        			{
+        				g.setColor(Color.magenta);
+        				
+        			}
+        			else
+        			{
+        				g.setColor(Color.blue);
+        			}
         			g.fillOval(particulas[i].x,particulas[i].y,10,10);
         		}
         	}
@@ -119,7 +149,7 @@ public class Board extends JPanel implements ActionListener {
     		Dot particula = new Dot( w * DOT_SIZE, h * DOT_SIZE);
     		particulas[i] = particula;
             particulas[i].id = i;
-            particulas[i].axis = ale.nextInt(4);
+            particulas[i].axis = ale.nextInt(8);
             particulas[i].velocity = ale.nextInt(10) + 1;
     	}
     }
@@ -127,8 +157,7 @@ public class Board extends JPanel implements ActionListener {
     {	
     	for(Dot d : particulas) 
     	{
-    		//Random rand = new Random();
-    		//d.axis = rand.nextInt(4);
+    		
     		switch (d.axis) 
     		{
     		case 1:
@@ -143,26 +172,80 @@ public class Board extends JPanel implements ActionListener {
     		case 4:
     			d.y -= d.velocity;
     			break;
+    		case 5:
+    			d.x -= d.velocity;
+    			d.y -= d.velocity;
+    			break;
+    		case 6:
+    			d.x += d.velocity;
+    			d.y += d.velocity;
+    			break;
+    		case 7:
+    			d.x += d.velocity;
+    			d.y -= d.velocity;
+    			break;
+    		case 8:
+    			d.x -= d.velocity;
+    			d.y += d.velocity;
+    			break;
     		}
-    	 }
+    	    
+    		if(inquadTree) 
+    	    {
+    		quadTree.inserir(d);
+    	    }
+    	}
+    	
+   }
+    
+   private void collisionBrutalForce() 
+   {
+	   System.out.println("BrutalForce");
    }
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) 
         {
+        	tree.clear();
+        	if(inquadTree) 
+    		{
+        		quadTree = new QuadTree(quad, 4);
+    		}
+        	
         	move();
+        	
+        	if(inquadTree) 
+    		{
+        		for(int i = 0; i < tree.size(); i++)
+        		{
+        			tree.get(i).collisionsCheck();
+        		}
+        		System.out.println("emQuad");
+    		}
+        	
+        	else if(inbrutalForce) 
+        	{
+        		collisionBrutalForce();
+        	}else 
+        	{
+        		inbrutalForce = false;
+        		inquadTree = false;
+        	}
+        	
         }
         repaint();
         
         if (e.getSource() == button01) 
         {
-        	
+        	inquadTree = true;
+        	inbrutalForce = false;
         }
         
         if (e.getSource() == button02) 
         {
-        	
+        	inbrutalForce = true;
+        	inquadTree = false;
         }
         
         if (e.getSource() == button03 ) 

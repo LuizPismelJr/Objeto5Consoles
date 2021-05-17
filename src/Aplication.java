@@ -15,7 +15,7 @@ public class Aplication extends JFrame
 		setResizable(false);
 		pack();
      
-		setTitle("QuadTreeTrabalho");
+		setTitle("Objeto-5-Consoles-QuadTree");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
