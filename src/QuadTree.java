@@ -17,8 +17,13 @@ public class QuadTree
 	public Quad quadra;
 	String setor;
 	
-	public QuadTree(Quad quad, int capacity) 
+	int larguraTela, alturaTela;
+	
+	public QuadTree(Quad quad, int capacity, int largura, int altura) 
 	{
+		larguraTela = largura;
+		alturaTela = altura;
+		
 		if (setor == null) {
 			setor = "AreaCompleta";
 		}
@@ -65,19 +70,19 @@ public class QuadTree
 		public void fragmentar() {
 			
 			Quad QuadNL = new Quad(quadra.x, quadra.y, quadra.w/2,quadra.h/2);
-			this.noroeste = new QuadTree(QuadNL, capacity);
+			this.noroeste = new QuadTree(QuadNL, capacity, larguraTela, alturaTela);
 			this.noroeste.setor = "noroeste";
 					
 			Quad QuadNO = new Quad(quadra.x + quadra.w / 2 , quadra.y, quadra.w/2,quadra.h/2);
-			this.nordeste = new QuadTree(QuadNO, capacity);
+			this.nordeste = new QuadTree(QuadNO, capacity, larguraTela, alturaTela);
 			this.nordeste.setor = "nordeste";
 			
 			Quad QuadSL = new Quad(quadra.x, quadra.y + quadra.h/2, quadra.w/2,quadra.h/2);
-			this.sudeste = new QuadTree(QuadSL, capacity);
+			this.sudeste = new QuadTree(QuadSL, capacity, larguraTela, alturaTela);
 			this.sudeste.setor = "sudeste";
 			
 			Quad QuadSO = new Quad(quadra.x + quadra.w / 2 , quadra.y + quadra.h/2, quadra.w/2,quadra.h/2);
-			this.sudoeste = new QuadTree(QuadSO, capacity);
+			this.sudoeste = new QuadTree(QuadSO, capacity, larguraTela, alturaTela);
 			this.sudoeste.setor = "sudoeste";
 			
 			divided = true;				
@@ -96,6 +101,7 @@ public class QuadTree
 						k++;
 					}		
 				}
+				
 				if (k > 0) {
 					if (particulas.get(i).axis == 0) 
 					{
@@ -119,9 +125,28 @@ public class QuadTree
 				else 
 				{
 					particulas.get(i).impact = false;
-					
-
 				}
+				
+				/*
+				if (particulas.get(i).x > larguraTela) 
+				{
+					particulas.get(i).axis = 1;
+				}
+				
+				if (particulas.get(i).x < 0) 
+				{
+					particulas.get(i).axis = 2;
+				}
+				
+				if (particulas.get(i).y > alturaTela) 
+				{
+					particulas.get(i).axis = 3;
+				}
+				
+				if (particulas.get(i).y < 0) 
+				{
+					particulas.get(i).axis = 4;
+				}*/
 			}
 		}
 		

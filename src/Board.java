@@ -22,11 +22,11 @@ public class Board extends JPanel implements ActionListener {
     private final int B_HEIGHT = 500;
 
     private Quad quad = new Quad(1,1,B_WIDTH-3, B_HEIGHT-3);
-    private QuadTree quadTree = new QuadTree(quad,4);
+    private QuadTree quadTree = new QuadTree(quad,4,B_WIDTH,B_HEIGHT);
     static List<QuadTree> tree = new ArrayList();
     
     private final int DOT_SIZE = 10; 
-    private final int RAND_POS = 49;
+    private final int RAND_POS = B_WIDTH/10;
     private final int DELAY = 140;
     
     private JButton button01;
@@ -202,15 +202,44 @@ public class Board extends JPanel implements ActionListener {
    {
 	   System.out.println("BrutalForce");
    }
+   
+   private void outOfScree() 
+   {
+	   for (Dot d : particulas) 
+	   {
+		   if (d.x > B_WIDTH -10) 
+			{
+				d.axis = 2;
+			}
+		
+			if (d.x < 0) 
+			{
+				d.axis = 1;
+			}
+		
+			if (d.y > B_HEIGHT - 10) 
+			{
+				d.axis = 4;
+			}
+		
+			if (d.y < 0) 
+			{
+				d.axis = 3;
+				System.out.println(d.axis);
+			}
+		}
+   }
+   
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) 
         {
+        	outOfScree();
         	tree.clear();
         	if(inquadTree) 
     		{
-        		quadTree = new QuadTree(quad, 4);
+        		quadTree = new QuadTree(quad, 4, B_WIDTH,B_HEIGHT);
     		}
         	
         	move();
@@ -221,7 +250,7 @@ public class Board extends JPanel implements ActionListener {
         		{
         			tree.get(i).collisionsCheck();
         		}
-        		System.out.println("emQuad");
+        		//System.out.println("emQuad");
     		}
         	
         	else if(inbrutalForce) 
