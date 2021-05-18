@@ -20,8 +20,7 @@ public class Board extends JPanel implements ActionListener {
 	
 	private final int B_WIDTH = 500;
     private final int B_HEIGHT = 500;
-    private int teste = 50;
-
+    
     private Quad quad = new Quad(1,1,B_WIDTH-3, B_HEIGHT-3);
     private QuadTree quadTree = new QuadTree(quad,4,B_WIDTH,B_HEIGHT);
     static List<QuadTree> tree = new ArrayList();
@@ -201,6 +200,31 @@ public class Board extends JPanel implements ActionListener {
     
    private void collisionBrutalForce() 
    {
+	   Random rnd = new Random();
+	   
+	   for(int i = 0; i < particulas.length; i++ ) 
+	   {
+		   int k = 0;
+		   
+		   for(Dot d : particulas) 
+		   {
+			   if(doPitagoras(particulas[i],d) && particulas[i] != d) 
+			   {
+				   k++;
+			   }
+		   }
+		   
+		   if(k > 0) 
+		   {
+			   particulas[i].axis = rnd.nextInt(8);
+			   particulas[i].impact = true;
+		   }
+		   else
+		   {
+			   particulas[i].impact = false;
+		   }
+		   
+	   }
 	   System.out.println("BrutalForce");
    }
    
@@ -257,7 +281,8 @@ public class Board extends JPanel implements ActionListener {
         	else if(inbrutalForce) 
         	{
         		collisionBrutalForce();
-        	}else 
+        	}
+        	else 
         	{
         		inbrutalForce = false;
         		inquadTree = false;
@@ -296,4 +321,9 @@ public class Board extends JPanel implements ActionListener {
         	}
         }
     }
+    
+    boolean doPitagoras(Dot particula1, Dot particula2)
+	{
+		return(((particula2.x - particula1.x) * (particula2.x - particula1.x) + (particula2.y - particula1.y) * (particula2.y - particula1.y)) <= 24.5f);					
+	}
 }

@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class QuadTree 
 {
@@ -90,6 +91,8 @@ public class QuadTree
 		
 		public void collisionsCheck() 
 		{
+			Random rnd = new Random();
+			
 			for (int i = 0; i < particulas.size(); i++) 
 			{
 				int k = 0;
@@ -102,51 +105,15 @@ public class QuadTree
 					}		
 				}
 				
-				if (k > 0) {
-					if (particulas.get(i).axis == 0) 
-					{
-						particulas.get(i).axis = 1;
-					}
-					
-					else if (particulas.get(i).axis == 1) 
-					{
-						particulas.get(i).axis = 0;
-					}
-					else if (particulas.get(i).axis == 2) 
-					{
-						particulas.get(i).axis = 3;
-					}
-					else if (particulas.get(i).axis == 3) 
-					{
-						particulas.get(i).axis = 2;
-					}					
-					particulas.get(i).impact = true;
-				}
-				else 
-				{
-					particulas.get(i).impact = false;
-				}
-				
-				/*
-				if (particulas.get(i).x > larguraTela) 
-				{
-					particulas.get(i).axis = 1;
-				}
-				
-				if (particulas.get(i).x < 0) 
-				{
-					particulas.get(i).axis = 2;
-				}
-				
-				if (particulas.get(i).y > alturaTela) 
-				{
-					particulas.get(i).axis = 3;
-				}
-				
-				if (particulas.get(i).y < 0) 
-				{
-					particulas.get(i).axis = 4;
-				}*/
+				if(k > 0) 
+				   {
+					   particulas.get(i).axis = rnd.nextInt(8);
+					   particulas.get(i).impact = true;
+				   }
+				   else
+				   {
+					   particulas.get(i).impact = false;
+				   }
 			}
 		}
 		
