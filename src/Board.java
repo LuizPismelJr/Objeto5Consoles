@@ -225,7 +225,6 @@ public class Board extends JPanel implements ActionListener {
 			if (d.y < 0) 
 			{
 				d.axis = 3;
-				System.out.println(d.axis);
 			}
 		}
    }
@@ -237,6 +236,7 @@ public class Board extends JPanel implements ActionListener {
         {
         	outOfScree();
         	tree.clear();
+        	
         	if(inquadTree) 
     		{
         		quadTree = new QuadTree(quad, 4, B_WIDTH,B_HEIGHT);
@@ -250,7 +250,7 @@ public class Board extends JPanel implements ActionListener {
         		{
         			tree.get(i).collisionsCheck();
         		}
-        		//System.out.println("emQuad");
+        		System.out.println("emQuad");
     		}
         	
         	else if(inbrutalForce) 
