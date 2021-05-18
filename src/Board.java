@@ -20,6 +20,7 @@ public class Board extends JPanel implements ActionListener {
 	
 	private final int B_WIDTH = 500;
     private final int B_HEIGHT = 500;
+    private int teste = 50;
 
     private Quad quad = new Quad(1,1,B_WIDTH-3, B_HEIGHT-3);
     private QuadTree quadTree = new QuadTree(quad,4,B_WIDTH,B_HEIGHT);
