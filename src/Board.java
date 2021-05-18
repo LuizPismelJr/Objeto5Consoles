@@ -18,8 +18,8 @@ import javax.swing.JTextField;
 
 public class Board extends JPanel implements ActionListener {
 	
-	private final int B_WIDTH = 500;
-    private final int B_HEIGHT = 500;
+	private final int B_WIDTH = 650;
+    private final int B_HEIGHT = 650;
     
     private Quad quad = new Quad(1,1,B_WIDTH-3, B_HEIGHT-3);
     private QuadTree quadTree = new QuadTree(quad,4,B_WIDTH,B_HEIGHT);
@@ -32,6 +32,7 @@ public class Board extends JPanel implements ActionListener {
     private JButton button01;
     private JButton button02;
     private JButton button03;
+    private JButton button04;
     private JTextField inputField;
     private int numeroParticulas;
     
@@ -55,7 +56,7 @@ public class Board extends JPanel implements ActionListener {
     	
     	iniUi(panel);
         
-        setBackground(Color.white);
+        setBackground(Color.black);
         
         setFocusable(true);
 
@@ -83,11 +84,17 @@ public class Board extends JPanel implements ActionListener {
     	panel.add(button02);
     	button02.addActionListener(this);
     	
-    	button03 = new JButton("CriarParticulas");
+    	button03 = new JButton("IniciarParticulas");
     	button03.setSize(50,50);
     	button03.setVisible(true);
     	panel.add(button03);
     	button03.addActionListener(this);
+    	
+    	button04 = new JButton("Zerar");
+    	button04.setSize(50,50);
+    	button04.setVisible(true);
+    	panel.add(button04);
+    	button04.addActionListener(this);
     }
     
     private void initGame() 
@@ -111,7 +118,7 @@ public class Board extends JPanel implements ActionListener {
         		if(inquadTree) 
         		{
         		g.drawRect(1,1,B_WIDTH-3, B_HEIGHT-3);
-            	g.setColor(Color.black);
+            	g.setColor(Color.white);
             	    	
             	for (int i = 0; i < tree.size(); i++) 
             	{
@@ -123,12 +130,12 @@ public class Board extends JPanel implements ActionListener {
         		{
         			if(particulas[i].impact) 
         			{
-        				g.setColor(Color.magenta);
+        				g.setColor(Color.cyan);
         				
         			}
         			else
         			{
-        				g.setColor(Color.blue);
+        				g.setColor(Color.darkGray);
         			}
         			g.fillOval(particulas[i].x,particulas[i].y,10,10);
         		}
@@ -225,7 +232,6 @@ public class Board extends JPanel implements ActionListener {
 		   }
 		   
 	   }
-	   System.out.println("BrutalForce");
    }
    
    private void outOfScreen() 
@@ -257,10 +263,12 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (inGame) 
+    	if (inGame) 
         {
         	outOfScreen();
         	tree.clear();
+        	
+        	System.out.println("Tempo inicial  " + System.currentTimeMillis());
         	
         	if(inquadTree) 
     		{
@@ -275,12 +283,13 @@ public class Board extends JPanel implements ActionListener {
         		{
         			tree.get(i).collisionsCheck();
         		}
-        		System.out.println("emQuad");
+        		System.out.println("Tempo emQuadTree   " + System.currentTimeMillis());
     		}
         	
         	else if(inbrutalForce) 
         	{
         		collisionBrutalForce();
+        		System.out.println("Tempo BrutalForce   " + System.currentTimeMillis());
         	}
         	else 
         	{
@@ -319,6 +328,13 @@ public class Board extends JPanel implements ActionListener {
         	{
         		inputField.setText("Insert Numbers");
         	}
+        }
+        
+        if (e.getSource() == button04) 
+        {
+        	inGame = false;
+        	inbrutalForce = false;
+    		inquadTree = false;
         }
     }
     
