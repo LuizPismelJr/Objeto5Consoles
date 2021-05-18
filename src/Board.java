@@ -18,8 +18,8 @@ import javax.swing.JTextField;
 
 public class Board extends JPanel implements ActionListener {
 	
-	private final int B_WIDTH = 500;
-    private final int B_HEIGHT = 500;
+	private final int B_WIDTH = 800;
+    private final int B_HEIGHT = 800;
     
     private Quad quad = new Quad(1,1,B_WIDTH-3, B_HEIGHT-3);
     private QuadTree quadTree = new QuadTree(quad,4,B_WIDTH,B_HEIGHT);
@@ -227,39 +227,14 @@ public class Board extends JPanel implements ActionListener {
 	   }
 	   System.out.println("BrutalForce");
    }
-   
-   private void outOfScree() 
-   {
-	   for (Dot d : particulas) 
-	   {
-		   if (d.x > B_WIDTH -10) 
-			{
-				d.axis = 2;
-			}
-		
-			if (d.x < 0) 
-			{
-				d.axis = 1;
-			}
-		
-			if (d.y > B_HEIGHT - 10) 
-			{
-				d.axis = 4;
-			}
-		
-			if (d.y < 0) 
-			{
-				d.axis = 3;
-			}
-		}
-   }
+
    
     @Override
     public void actionPerformed(ActionEvent e) {
 
         if (inGame) 
         {
-        	outOfScree();
+        	//outOfScree();
         	tree.clear();
         	
         	if(inquadTree) 
