@@ -90,7 +90,7 @@ public class Board extends JPanel implements ActionListener {
     	panel.add(button03);
     	button03.addActionListener(this);
     	
-    	button04 = new JButton("Zerar");
+    	button04 = new JButton("Parar");
     	button04.setSize(50,50);
     	button04.setVisible(true);
     	panel.add(button04);
