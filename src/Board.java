@@ -268,7 +268,7 @@ public class Board extends JPanel implements ActionListener {
         	outOfScreen();
         	tree.clear();
         	
-        	System.out.println("Tempo inicial  " + System.nanoTime()/1000000);
+        	System.out.println("Tempo inicial  " + System.currentTimeMillis());
         	
         	if(inquadTree) 
     		{
@@ -283,13 +283,13 @@ public class Board extends JPanel implements ActionListener {
         		{
         			tree.get(i).collisionsCheck();
         		}
-        		System.out.println("Tempo emQuadTree   " + System.nanoTime()/1000000);
+        		System.out.println("Tempo emQuadTree   " + System.currentTimeMillis());
     		}
         	
         	else if(inbrutalForce) 
         	{
         		collisionBrutalForce();
-        		System.out.println("Tempo BrutalForce   " + System.nanoTime()/1000000);
+        		System.out.println("Tempo BrutalForce   " + System.currentTimeMillis());
         	}
         	else 
         	{
